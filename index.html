@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Tamanho de Pizza</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: rgb(75, 75, 75);
+    color: #ffffff;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #e1e44a;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(104, 104, 104, 0.979);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #resultado {
+      margin-top: 20px;
+      font-size: 18px;
+      text-align: center;
+    }
+
+    .chart-container {
+      margin-top: 30px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Calculadora de Tamanho de Pizza</h1>
+    <label for="numPessoas">Número de Pessoas:</label>
+    <input type="number" id="numPessoas" placeholder="Insira o número de pessoas">
+    <label for="nivelFome">Nível de Fome:</label>
+    <select id="nivelFome">
+      <option value="1">Pouca Fome</option>
+      <option value="2">Fome Média</option>
+      <option value="3">Muita Fome</option>
+    </select>
+    <button onclick="calcularTamanhoPizza()">Calcular</button>
+    <div id="resultado"></div>
+  </div>
+
+  <div class="container chart-container">
+    <canvas id="pizzaChart" width="400" height="400"></canvas>
+  </div>
+
+  <script>
+    function calcularTamanhoPizza() {
+      var numPessoas = parseInt(document.getElementById("numPessoas").value);
+      var nivelFome = parseInt(document.getElementById("nivelFome").value);
+
+      var tamanhoPizza;
+
+      if (numPessoas <= 1) {
+        tamanhoPizza = "Pequena (6 fatias)";
+      } else if (numPessoas <= 3) {
+        tamanhoPizza = "Média (8 fatias)";
+      } else if (numPessoas <= 5) {
+        tamanhoPizza = "Grande (10 fatias)";
+      } else {
+        tamanhoPizza = "Família (12 fatias)";
+      }
+
+      if (nivelFome === 2) {
+        tamanhoPizza += " - Com fome média, talvez você queira pedir uma maior.";
+      } else if (nivelFome === 3) {
+        tamanhoPizza += " - Com muita fome, definitivamente peça uma maior!";
+      }
+
+      document.getElementById("resultado").innerText = "Recomendação: " + tamanhoPizza;
+    }
+
+    var ctx = document.getElementById('pizzaChart').getContext('2d');
+    var pizzaChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Queijo', 'Pepperoni', 'Vegetariana', 'Frango', 'Margarita'],
+            datasets: [{
+                label: 'Preferência de Pizza',
+                data: [20, 15, 30, 10, 25],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.7)',
+                    'rgba(75, 192, 192, 0.7)',
+                    'rgba(153, 102, 255, 0.7)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Preferência de Pizza'
+            }
+        }
+    });
+  </script>
+</body>
+</html>
